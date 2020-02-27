@@ -21,6 +21,14 @@ containerd_repo_key_info:
   repo_keys:
     - '{{ containerd_debian_repo_repokey }}'
 
+containerd_repo_distro_ver:
+  'eoan': 'disco'
+  'disco': 'disco'
+  'cosmic': 'cosmic'
+  'bionic': 'bionic'
+  'artful': 'artful'
+
+
 containerd_repo_info:
   pkg_repo: apt_repository
   repos:
