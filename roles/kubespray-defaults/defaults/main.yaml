@@ -78,8 +78,8 @@ resolvconf_mode: docker_dns
 # Deploy netchecker app to verify DNS resolve as an HTTP service
 deploy_netchecker: false
 # Ip address of the kubernetes DNS service (called skydns for historical reasons)
-skydns_server: "{{ kube_service_addresses|ipaddr('net')|ipaddr(3)|ipaddr('address') }}"
-skydns_server_secondary: "{{ kube_service_addresses|ipaddr('net')|ipaddr(4)|ipaddr('address') }}"
+skydns_server: "{{ kube_service_addresses.split(',')[0]|ipaddr('net')|ipaddr(3)|ipaddr('address') }}"
+skydns_server_secondary: "{{ kube_service_addresses.split(',')[0]|ipaddr('net')|ipaddr(4)|ipaddr('address') }}"
 dns_domain: "{{ cluster_name }}"
 
 kube_dns_servers:
@@ -145,12 +145,12 @@ calico_upgrade_enabled: true
 calico_datastore: "etcd"
 
 # Kubernetes internal network for services, unused block of space.
-kube_service_addresses: 10.233.0.0/18
+kube_service_addresses: 172.21.0.0/24,fcff::/64
 
 # internal network. When used, it will assign IP
 # addresses from this range to individual pods.
 # This network must be unused in your network infrastructure!
-kube_pods_subnet: 10.233.64.0/18
+kube_pods_subnet: 10.233.64.0/18,fc10::/24
 
 # internal network node size allocation (optional). This is the size allocated
 # to each node on your network.  With these defaults you should have
@@ -169,7 +169,7 @@ kube_network_node_prefix: 24
 # listening on.
 # NOTE: loadbalancer_apiserver_localhost somewhat alters the final API enpdoint
 # access IP value (automatically evaluated below)
-kube_apiserver_ip: "{{ kube_service_addresses|ipaddr('net')|ipaddr(1)|ipaddr('address') }}"
+kube_apiserver_ip: "{{ kube_service_addresses.splir(',')[0]|ipaddr('net')|ipaddr(1)|ipaddr('address') }}"
 kube_apiserver_bind_address: 0.0.0.0
 # https
 kube_apiserver_port: 6443
